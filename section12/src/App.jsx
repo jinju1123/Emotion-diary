@@ -6,6 +6,15 @@ import Diary from "./pages/Diary";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Notfound from "./pages/Notfound";
+import {
+  doc,
+  addDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { firestore } from "./firebase";
 
 function reducer(state, action) {
   let nextState;
@@ -29,8 +38,6 @@ function reducer(state, action) {
     default:
       return state;
   }
-
-  localStorage.setItem("diary", JSON.stringify(nextState));
   return nextState;
 }
 
@@ -43,65 +50,85 @@ function App() {
   const idRef = useRef(0);
 
   useEffect(() => {
-    const storedData = localStorage.getItem("diary");
-    if (!storedData) {
-      setIsLoding(false);
-      return;
-    }
-    const parsedData = JSON.parse(storedData);
-    if (!Array.isArray(parsedData)) {
-      setIsLoding(false);
-      return;
-    }
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(firestore, "diary"));
+        const diaryData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-    let maxId = 0;
-    parsedData.forEach((item) => {
-      if (Number(item.id) > maxId) {
-        maxId = Number(item.id);
+        dispatch({
+          type: "INIT",
+          data: diaryData,
+        });
+      } catch (e) {
+        console.error("Error fetching data: ", e);
+      } finally {
+        setIsLoding(false);
       }
-    });
-
-    idRef.current = maxId + 1;
-
-    dispatch({
-      type: "INIT",
-      data: parsedData,
-    });
-    setIsLoding(false);
+    };
+    fetchData();
   }, []);
 
   // 새로운 일기 추가
-  const onCreate = (createdDate, emotionId, content) => {
-    dispatch({
-      type: "CREATE",
-      data: {
-        id: idRef.current++,
-        createdDate,
-        emotionId,
-        content,
-      },
-    });
+  const onCreate = async (createdDate, emotionId, content) => {
+    const newData = {
+      createdDate,
+      emotionId,
+      content,
+    };
+
+    try {
+      const docRef = await addDoc(collection(firestore, "diary"), newData);
+      dispatch({
+        type: "CREATE",
+        data: {
+          id: docRef.id,
+          ...newData,
+        },
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   // 기존 일기 수정
-  const onUpdate = (id, createdDate, emotionId, content) => {
-    dispatch({
-      type: "UPDATE",
-      data: {
-        id,
-        createdDate,
-        emotionId,
-        content,
-      },
-    });
+  const onUpdate = async (id, createdDate, emotionId, content) => {
+    const updatedData = {
+      createdDate,
+      emotionId,
+      content,
+    };
+
+    try {
+      const docRef = doc(firestore, "diary", id);
+      await updateDoc(docRef, updatedData);
+
+      dispatch({
+        type: "UPDATE",
+        data: {
+          id,
+          ...updatedData,
+        },
+      });
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
   };
 
   // 기존 일기 삭제
-  const onDelete = (id) => {
-    dispatch({
-      type: "DELETE",
-      id,
-    });
+  const onDelete = async (id) => {
+    try {
+      const docRef = doc(firestore, "diary", id);
+      await deleteDoc(docRef);
+      dispatch({
+        type: "DELETE",
+        id,
+      });
+    } catch (e) {
+      console.error("Error deleting document: ", e);
+    }
   };
 
   if (isLoding) {
