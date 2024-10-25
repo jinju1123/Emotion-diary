@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Editor from "./components/Editor";
 import List from "./components/List";
 import { useRef, useReducer, useCallback, createContext, useMemo } from "react";
+import { firestore } from "./firebase";
 
 const mockDate = [
   {
@@ -44,8 +45,10 @@ export const TodoStateContext = createContext();
 export const TodoDispatchContext = createContext();
 
 function App() {
-  const [todos, dispatch] = useReducer(reducer, mockDate);
+  const [todos, dispatch] = useReducer(reducer, []);
   const idRef = useRef(3);
+
+  console.log(firestore);
 
   const onCreate = useCallback((content) => {
     dispatch({
