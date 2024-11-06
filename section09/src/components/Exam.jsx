@@ -8,6 +8,7 @@ function reducer(state, action) {
   //   } else if (action.type === "DECREASE") {
   //     return state - action.data;
   //   }
+
   switch (action.type) {
     case "INCREASE":
       return state + action.data;

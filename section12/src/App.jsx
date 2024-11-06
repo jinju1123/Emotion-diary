@@ -1,5 +1,5 @@
 import "./App.css";
-import { useReducer, useRef, createContext, useEffect, useState } from "react";
+import { useReducer, createContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Diary from "./pages/Diary";
@@ -47,7 +47,7 @@ export const DiaryDispatchContext = createContext();
 function App() {
   const [isLoding, setIsLoding] = useState(true);
   const [data, dispatch] = useReducer(reducer, []);
-  const idRef = useRef(0);
+  //const idRef = useRef(0);
 
   useEffect(() => {
     const fetchData = async () => {

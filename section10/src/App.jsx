@@ -4,7 +4,7 @@ import Editor from "./components/Editor";
 import List from "./components/List";
 import { useRef, useReducer, useCallback } from "react";
 
-const mockDate = [
+const mockData = [
   {
     id: 0,
     isDone: false,
@@ -41,7 +41,7 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [todos, dispatch] = useReducer(reducer, mockDate);
+  const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
 
   const onCreate = useCallback((content) => {

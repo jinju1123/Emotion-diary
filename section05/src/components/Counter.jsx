@@ -3,6 +3,8 @@ import { useState } from "react";
 const Counter = () => {
   const [count, setcount] = useState(0);
 
+  console.log(count);
+
   return (
     <div>
       <h1>{count}</h1>

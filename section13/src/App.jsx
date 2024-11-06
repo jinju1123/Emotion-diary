@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Editor from "./components/Editor";
 import List from "./components/List";
-import { useRef, useReducer } from "react";
+import { useCallback, useReducer, useRef, createContext, useMemo } from "react";
 
 const mockData = [
   {
@@ -14,13 +14,13 @@ const mockData = [
   {
     id: 1,
     isDone: false,
-    content: "영어 공부하기",
+    content: "JavaScript 공부하기",
     date: new Date().getTime(),
   },
   {
     id: 2,
     isDone: false,
-    content: "독서하기",
+    content: "영어 공부하기",
     date: new Date().getTime(),
   },
 ];
@@ -40,11 +40,14 @@ function reducer(state, action) {
   }
 }
 
+export const TodoStateContext = createContext();
+export const TodoDispatchContext = createContext();
+
 function App() {
   const [todos, dispatch] = useReducer(reducer, mockData);
   const idRef = useRef(3);
 
-  const onCreate = (content) => {
+  const onCreate = useCallback((content) => {
     dispatch({
       type: "CREATE",
       data: {
@@ -54,27 +57,35 @@ function App() {
         date: new Date().getTime(),
       },
     });
-  };
+  }, []);
 
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
-      targetId: targetId,
+      targetId,
     });
-  };
+  }, []);
 
-  const onDelete = (targetId) => {
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
-      targetId: targetId,
+      targetId,
     });
-  };
+  }, []);
+
+  const memoizedContext = useMemo(() => {
+    return { onCreate, onUpdate, onDelete };
+  }, []);
 
   return (
     <div className="App">
       <Header />
-      <Editor onCreate={onCreate} />
-      <List todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
+      <TodoStateContext.Provider value={todos}>
+        <TodoDispatchContext.Provider value={memoizedContext}>
+          <Editor />
+          <List />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }

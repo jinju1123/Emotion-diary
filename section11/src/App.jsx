@@ -5,7 +5,7 @@ import List from "./components/List";
 import { useRef, useReducer, useCallback, createContext, useMemo } from "react";
 import { firestore } from "./firebase";
 
-const mockDate = [
+const mockData = [
   {
     id: 0,
     isDone: false,

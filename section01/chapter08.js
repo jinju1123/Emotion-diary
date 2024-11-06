@@ -6,9 +6,9 @@ let var1;
 let var2 = 10;
 let var3 = 20;
 
-let var4 = var1 ?? var2; // undifined가 아닌 값 찾아서 저장
-let var5 = var1 ?? var3;
-let var6 = var2 ?? var3; // 둘다 값이 있으면 앞에 값을 저장
+let var4 = var1 ?? var2; // undifined가 아닌 값 찾아서 저장 10
+let var5 = var1 ?? var3; // 20
+let var6 = var2 ?? var3; // 둘다 값이 있으면 앞에 값을 저장 10
 
 let userName;
 let userNickName = "user";
@@ -29,4 +29,4 @@ let t1 = typeof var7;
 
 let var8 = 20;
 let res = var8 % 2 === 0 ? "짝수" : "홀수";
-console.log(res);
+//console.log(res);

@@ -4,7 +4,7 @@ import Editor from "./components/Editor";
 import List from "./components/List";
 import { useState, useRef } from "react";
 
-const mockDate = [
+const mockData = [
   {
     id: 0,
     isDone: false,
@@ -26,7 +26,7 @@ const mockDate = [
 ];
 
 function App() {
-  const [todos, setTodos] = useState(mockDate);
+  const [todos, setTodos] = useState(mockData);
   const idRef = useRef(3);
 
   const onCreate = (content) => {

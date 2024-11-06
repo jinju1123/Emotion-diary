@@ -3,7 +3,7 @@
 // 1. push
 // 배열의 맨 뒤에 새로운 요소를 추가하는 메서드
 let arr1 = [1, 2, 3];
-const newLength = arr1.push(4,5,6,7);
+const newLength = arr1.push(4, 5, 6, 7);
 
 //console.log(arr1);
 //console.log(newLength);
@@ -15,7 +15,6 @@ const poppedItem = arr2.pop();
 
 //console.log(poppedItem);
 //console.log(arr2);
-
 
 // 3. shift
 // 배열의 맨 앞에 있는 요소를 제거, 제거한 요소를 반환
@@ -31,14 +30,14 @@ const newLength2 = arr4.unshift(0);
 
 // 5. slice
 // 마치 가위처럼, 배열의 특정 범위를 잘라내서 새로운 배열로 반환
-let arr5 = [ 1, 2, 3, 4, 5 ];
+let arr5 = [1, 2, 3, 4, 5];
 let sliced = arr5.slice(2, 5);
 let sliced2 = arr5.slice(2);
 let sliced3 = arr5.slice(-3);
-// console.log(sliced);
-// console.log(sliced2);
-// console.log(sliced3);
-// console.log(arr5);
+console.log(sliced);
+console.log(sliced2);
+console.log(sliced3);
+console.log(arr5);
 
 // 6. concat
 // 두개의 서로 다른 배열을 이어 붙여서 새로운 배열로 반환
@@ -47,4 +46,4 @@ let arr6 = [1, 2];
 let arr7 = [3, 4];
 
 let concatedArr = arr6.concat(arr7);
-console.log(concatedArr);
+//console.log(concatedArr);

@@ -13,8 +13,9 @@ const result = num + str; // 1020
 let str1 = "10";
 let strToNum1 = Number(str1);
 
-let str2 = "10개"
+let str2 = "10개";
 let strToNum2 = parseInt(str2); // 숫자가 앞쪽으로 나와 있어야 한다.
+console.log(strToNum2);
 
 // 숫자 -> 문자
 let num1 = 20;

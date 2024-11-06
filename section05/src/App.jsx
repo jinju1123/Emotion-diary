@@ -1,11 +1,13 @@
 import "./App.css";
 import Register from "./components/Register";
-import HookExam from "./components/HookExam";
+import Blub from "./components/Bulb";
+import Counter from "./components/Counter";
+import Button from "./components/Button";
 
 function App() {
   return (
     <>
-      <HookExam />
+      <Register />
     </>
   );
 }
